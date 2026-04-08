@@ -1,0 +1,4 @@
+Sneakers Stride Shop is deployed!
+
+Get your ALB URL by running:
+kubectl get ingress -n sneakers

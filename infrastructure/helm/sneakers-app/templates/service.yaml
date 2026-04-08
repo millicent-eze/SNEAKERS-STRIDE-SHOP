@@ -1,0 +1,16 @@
+{{- range $name, $service := (dict "user-service" .Values.userService "product-service" .Values.productService "order-service" .Values.orderService) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $name }}
+  namespace: sneakers
+spec:
+  selector:
+    app: {{ $name }}
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: {{ $service.port }}
+  type: ClusterIP
+---
+{{- end }}

@@ -1,0 +1,26 @@
+{{- range $name, $service := (dict "user-service" .Values.userService "product-service" .Values.productService "order-service" .Values.orderService) }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $name }}
+  namespace: sneakers
+spec:
+  replicas: {{ $service.replicas }}
+  selector:
+    matchLabels:
+      app: {{ $name }}
+  template:
+    metadata:
+      labels:
+        app: {{ $name }}
+    spec:
+      containers:
+        - name: {{ $name }}
+          image: {{ $service.image }}:{{ $service.tag }}
+          ports:
+            - containerPort: {{ $service.port }}
+          env:
+            - name: PORT
+              value: "{{ $service.port }}"
+---
+{{- end }}
