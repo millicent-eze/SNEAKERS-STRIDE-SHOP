@@ -10,6 +10,20 @@ module "eks" {
 
   cluster_endpoint_public_access = true
 
+  access_entries = {
+    sneakers_admin = {
+      principal_arn = "arn:aws:iam::246950780167:user/sneakers-admin"
+      policy_associations = {
+        admin = {
+          policy_arn   = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          access_scope = {
+            type = "cluster"
+          }
+        }
+      }
+    }
+  }
+
   eks_managed_node_groups = {
     default = {
       min_size       = 1
@@ -23,3 +37,4 @@ module "eks" {
     Project = "sneakers-stride-shop"
   }
 }
+
